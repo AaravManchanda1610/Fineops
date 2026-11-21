@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Green FinOps Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%231f7a4a'/%3E%3Cpath d='M3 11l3-4 3 2 4-5' stroke='white' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#fafaf8;--card:#fff;--tx:#161a17;--mu:#656d67;--ln:#e3e5e1;--ac:#1f7a4a;--ng:#b3392d;--nu:#8a918c;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101311;--card:#161a17;--tx:#e9ece9;--mu:#9aa39c;--ln:#2a302c;--ac:#4cb882;--ng:#e5786b;--nu:#727a74;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101311;--card:#161a17;--tx:#e9ece9;--mu:#9aa39c;--ln:#2a302c;--ac:#4cb882;--ng:#e5786b;--nu:#727a74;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:1000px;margin:0 auto;padding:28px 18px 48px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--ln);padding-bottom:14px;margin-bottom:18px}
+h1{font-size:1.35rem;font-weight:650;letter-spacing:-.01em;margin:0}header p{margin:2px 0 0;color:var(--mu)}
+.tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);border:1px solid var(--ln);padding:3px 8px;border-radius:4px}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border:1px solid var(--ln);border-radius:8px;background:var(--card);margin-bottom:18px}
+.kp div{padding:14px 16px;border-right:1px solid var(--ln)}.kp div:last-child{border-right:0}
+.kp b{display:block;font-size:1.7rem;font-weight:600;letter-spacing:-.02em;line-height:1.2}.kp span{color:var(--mu);font-size:.8rem}
+.g{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));margin-bottom:18px}
+.c{background:var(--card);border:1px solid var(--ln);border-radius:8px;padding:16px 18px}
+h2{font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;color:var(--mu);font-weight:600;margin:0 0 4px}
+.lead{margin:0 0 12px;font-weight:550}
+label{display:flex;justify-content:space-between;color:var(--mu);font-size:.8rem}
+input[type=range]{width:100%;margin:6px 0 12px;accent-color:var(--ac)}
+.r{display:flex;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);margin:0 0 10px}
+.r div{flex:1;padding:8px 0}.r div+div{padding-left:12px;border-left:1px solid var(--ln)}
+.r b{display:block;font-size:1.15rem;font-weight:600}.r span{color:var(--mu);font-size:.74rem}
+svg{width:100%;height:auto;display:block}.n{color:var(--mu);font-size:.78rem;margin:8px 0 0}
+.pos{color:var(--ng)}.neg{color:var(--ac)}
+.row{display:grid;grid-template-columns:minmax(120px,1.3fr) 2fr 2fr;gap:12px;align-items:center;padding:7px 0;border-top:1px solid var(--ln);font-size:.84rem}
+.row.h{border-top:0;color:var(--mu);font-size:.74rem;text-transform:uppercase;letter-spacing:.05em}
+.bar{position:relative;height:18px}.bar:before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:1px solid var(--nu)}
+.bar i{position:absolute;top:3px;height:12px;border-radius:2px}.bar em{position:absolute;top:0;font-style:normal;font-size:.74rem;line-height:18px;color:var(--mu)}
+.as{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:4px 24px;margin:6px 0 0;padding:0;list-style:none;color:var(--mu);font-size:.8rem}
+.as li{border-top:1px solid var(--ln);padding:6px 0}.as b{color:var(--tx);font-weight:550}
+@media(max-width:560px){.row{grid-template-columns:1fr 1fr}.row>:first-child{grid-column:1/3}}
+.ctl{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:-4px 0 18px}.ctl label{display:block;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em}
+.ctl input[type=number]{width:90px;margin-top:4px;padding:6px 8px;border:1px solid var(--ln);border-radius:6px;background:var(--card);color:var(--tx);font:inherit}
+.ctl button{padding:7px 14px;border:1px solid var(--ac);background:var(--ac);color:#fff;border-radius:6px;font:inherit;cursor:pointer}.ctl button:disabled{opacity:.5;cursor:wait}
+#st{color:var(--mu);font-size:.8rem;margin-left:auto}
+</style></head><body><main>
+<header><div><h1>Green FinOps Dashboard</h1><p>Joint cost and carbon optimisation across multi-cloud infrastructure</p></div><span class="tag">Synthetic data</span></header>
+<div class="ctl"><label>Random seed<input id="seed" type="number" value="0" min="0" max="999"></label><label>Jobs<input id="jobs" type="number" value="80" min="10" max="150"></label><button id="go">Re-run optimiser</button><span id="st" role="status"></span></div>
+
+<div class="kp">
+<div><b class="neg" id="k1"></b><span>Carbon, joint balanced strategy</span></div>
+<div><b id="k2"></b><span>Cost, joint balanced strategy</span></div>
+<div><b class="neg" id="k3"></b><span>Carbon from delaying jobs only, at no cost change</span></div>
+<div><b class="pos" id="k4"></b><span>Carbon when optimising for cost alone</span></div>
+</div>
+
+<div class="g">
+<section class="c"><h2>Pareto frontier</h2><p class="lead">Pick a carbon target, read the price.</p>
+<label for="s1"><span>Cleanest</span><span>Cheapest</span></label><input id="s1" type="range" min="0" max="10" value="3">
+<div class="r"><div><b id="a1"></b><span>Carbon vs. baseline</span></div><div><b id="b1"></b><span>Cost vs. baseline</span></div><div><b id="c1"></b><span>Cost per extra 10 pts of carbon cut</span></div></div>
+<svg id="ch1" viewBox="0 0 400 230" role="img" aria-label="Cost versus carbon Pareto frontier"></svg>
+<p class="n">The curve steepens toward the cleanest end: the last carbon cuts cost the most.</p></section>
+
+<section class="c"><h2>Internal carbon price</h2><p class="lead">Put a price on emissions and see placement shift.</p>
+<label for="s2"><span>USD 0 per tCO&#8322;e</span><span>USD 5,000</span></label><input id="s2" type="range" min="0" max="7" value="5">
+<div class="r"><div><b id="a2"></b><span>Price per tCO&#8322;e</span></div><div><b id="b2"></b><span>Carbon</span></div><div><b id="c2"></b><span>Cost</span></div><div><b id="d2"></b><span>In cleanest region</span></div></div>
+<svg id="ch2" viewBox="0 0 400 230" role="img" aria-label="Effect of internal carbon price"></svg>
+<p class="n">Below roughly USD 500 the price barely changes decisions in this setup.</p></section>
+</div>
+
+<section class="c" style="margin-bottom:18px"><h2>Strategy comparison</h2><p class="lead">Change versus running every job at once in its home region.</p>
+<div class="row h"><span>Strategy</span><span>Cost</span><span>Carbon</span></div><div id="tb"></div>
+<p class="n">Means of 10 randomised runs. Green bars reduce, red bars increase.</p></section>
+
+<section class="c"><h2>Model and assumptions</h2>
+<ul class="as"><li><b>Scope</b> 80 jobs, 72 hours</li><li><b>Footprint</b> 5 regions, 3 providers</li><li><b>Grid intensity</b> 30 to 700 gCO&#8322;e/kWh</li><li><b>Egress</b> USD 0.02 to 0.09 per GB</li><li><b>Method</b> linear programme, epsilon-constraint sweep</li><li><b>Not modelled</b> latency, SLAs, embodied carbon</li></ul>
+<p class="n">Illustrative only: prices and carbon profiles are synthetic, so read the shape of the trade-off, not the magnitudes. Companion to the survey on Green FinOps.</p></section>
+</main>
+<script>
+let F=[[-87.62,54.91],[-79.74,27.92],[-71.87,18.03],[-64.0,11.49],[-56.13,6.71],[-48.26,3.14],[-40.39,0.27],[-32.52,-2.05],[-24.65,-3.96],[-16.78,-5.51],[-8.91,-6.71],[-1.04,-7.63],[6.83,-8.27],[14.7,-8.64],[22.57,-8.78]];
+let P=[[0,-8.78,22.57,14.59],[50,-8.78,21.16,14.93],[100,-8.77,19.64,15.3],[200,-8.71,15.98,16.26],[500,-8.37,7.23,19.22],[1000,-7.4,-4.01,24.06],[2000,-3.4,-27.67,34.25],[5000,7.54,-58.06,51.3]];
+let S=[["Status quo",0,0],["Delay jobs only",-0.76,-10.72],["Move across clouds only",16.32,-62.96],["Move and delay (balanced)",12.7,-65.91],["Cheapest possible",-8.78,22.57],["Cleanest possible",68.18,-87.62]];
+const $=i=>document.getElementById(i),f=v=>(v>0.05?"+":v<-0.05?"\u2212":"")+Math.abs(v).toFixed(1)+"%",cl=v=>v>0.05?"pos":v<-0.05?"neg":"";
+const W=400,H=230,m={l:42,r:10,t:10,b:32},sc=(d,a,b,lo,hi)=>a+(d-lo)/(hi-lo)*(b-a);
+const ext=(a,pad)=>{const lo=Math.min(...a,0),hi=Math.max(...a,0),p=(hi-lo)*pad||1;return[lo-p,hi+p]};
+function frame(y0,y1,xl,yl){let s=`<rect x="${m.l}" y="${m.t}" width="${W-m.l-m.r}" height="${H-m.t-m.b}" fill="none" stroke="var(--ln)"/>`;
+ const z=sc(0,H-m.b,m.t,y0,y1);if(z>m.t&&z<H-m.b)s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${z}" y2="${z}" stroke="var(--nu)" stroke-dasharray="3 3"/>`;
+ return s+`<text x="${(W+m.l)/2}" y="${H-5}" text-anchor="middle" font-size="10" fill="var(--mu)">${xl}</text><text transform="rotate(-90)" x="${-H/2}" y="11" text-anchor="middle" font-size="10" fill="var(--mu)">${yl}</text>`}
+const ticks=(lo,hi,n=4)=>Array.from({length:n},(_,i)=>Math.round(lo+(hi-lo)*i/(n-1)));
+function kpis(){const g=n=>S.find(r=>r[0]===n)||[0,0,0];const b=g("Move and delay (balanced)"),d=g("Delay jobs only"),c=g("Cheapest possible");
+ $("k1").textContent=f(b[2]);$("k2").textContent=f(b[1]);$("k3").textContent=f(d[2]);$("k4").textContent=f(c[2]);$("k3").nextElementSibling.textContent="Carbon from delaying jobs only (cost "+f(d[1])+")"}
+function d1(){const n=F.length;$("s1").max=n-1;const i=Math.min(+$("s1").value,n-1),[cx,cy]=F[i];$("a1").textContent=f(cx);$("b1").textContent=f(cy);$("a1").className=cl(cx);$("b1").className=cl(cy);
+ const a=F[Math.max(i-1,0)],b=F[Math.min(i+1,n-1)];$("c1").textContent=(b[0]!==a[0])?f(-(b[1]-a[1])/(b[0]-a[0])*10).replace("%"," pts"):"n/a";
+ const [x0,x1]=ext(F.map(p=>p[0]),.08),[y0,y1]=ext(F.map(p=>p[1]),.08),X=v=>sc(v,m.l,W-m.r,x0,x1),Y=v=>sc(v,H-m.b,m.t,y0,y1);
+ let s=frame(y0,y1,"Carbon vs. baseline (%)","Cost vs. baseline (%)")+`<polyline fill="none" stroke="var(--ac)" stroke-width="2" points="${F.map(p=>X(p[0])+","+Y(p[1])).join(" ")}"/>`;
+ s+=F.map(p=>`<circle cx="${X(p[0])}" cy="${Y(p[1])}" r="2.5" fill="var(--ac)"/>`).join("")+`<circle cx="${X(cx)}" cy="${Y(cy)}" r="6" fill="var(--card)" stroke="var(--tx)" stroke-width="2"/>`;
+ s+=ticks(x0,x1).map(v=>`<text x="${X(v)}" y="${H-m.b+12}" font-size="9" text-anchor="middle" fill="var(--mu)">${v}</text>`).join("")+ticks(y0,y1).map(v=>`<text x="${m.l-4}" y="${Y(v)+3}" font-size="9" text-anchor="end" fill="var(--mu)">${v}</text>`).join("");$("ch1").innerHTML=s}
+function d2(){const i=+$("s2").value,p=P[i];$("a2").textContent="$"+p[0].toLocaleString();$("b2").textContent=f(p[2]);$("b2").className=cl(p[2]);$("c2").textContent=f(p[1]);$("c2").className=cl(p[1]);$("d2").textContent=p[3].toFixed(0)+"%";
+ const [y0,y1]=ext(P.flatMap(p=>[p[1],p[2]]),.1),X=k=>m.l+16+k/(P.length-1)*(W-m.l-m.r-32),Y=v=>sc(v,H-m.b,m.t,y0,y1);
+ let s=frame(y0,y1,"Internal carbon price (USD/tCO\u2082e)","Change vs. baseline (%)");
+ s+=`<polyline fill="none" stroke="var(--ac)" stroke-width="2" points="${P.map((p,k)=>X(k)+","+Y(p[2])).join(" ")}"/><polyline fill="none" stroke="var(--tx)" stroke-width="1.6" stroke-dasharray="5 3" points="${P.map((p,k)=>X(k)+","+Y(p[1])).join(" ")}"/>`;
+ s+=P.map((p,k)=>`<text x="${X(k)}" y="${H-m.b+12}" font-size="9" text-anchor="middle" fill="var(--mu)">${p[0]}</text>`).join("")+`<line x1="${X(i)}" x2="${X(i)}" y1="${m.t}" y2="${H-m.b}" stroke="var(--nu)"/><circle cx="${X(i)}" cy="${Y(p[2])}" r="5" fill="var(--ac)"/><circle cx="${X(i)}" cy="${Y(p[1])}" r="5" fill="var(--card)" stroke="var(--tx)" stroke-width="2"/>`;
+ s+=`<text x="${m.l+8}" y="${m.t+14}" font-size="10" fill="var(--ac)">Carbon (solid)</text><text x="${m.l+86}" y="${m.t+14}" font-size="10" fill="var(--tx)">Cost (dashed)</text>`;$("ch2").innerHTML=s}
+function bars(){const mx=Math.max(...S.flatMap(r=>[Math.abs(r[1]),Math.abs(r[2])]),1)*1.15;
+ const bar=v=>{const w=Math.abs(v)/mx*50,col=v>0?"var(--ng)":"var(--ac)",pos=v>0?"left:50%":"right:50%",lab=v>0?`left:calc(50% + ${w}% + 4px)`:`right:calc(50% + ${w}% + 4px)`;
+  return `<div class="bar"><i style="${pos};width:${w}%;background:${col}"></i><em style="${lab}">${Math.abs(v)<.05?"0.0%":f(v)}</em></div>`};
+ $("tb").innerHTML=S.map(r=>`<div class="row"><span>${r[0]}</span>${bar(r[1])}${bar(r[2])}</div>`).join("")}
+const draw=()=>{kpis();d1();d2();bars()};
+async function api(path){const r=await fetch("/api/"+path);let j={};try{j=await r.json()}catch(e){}if(!r.ok)throw new Error(j.error||"HTTP "+r.status);return j}
+async function run(){const q=`seed=${+$("seed").value||0}&jobs=${+$("jobs").value||80}`,b=$("go");b.disabled=true;$("st").textContent="Running optimiser...";
+ try{const t=performance.now(),[a,c,d]=await Promise.all([api("scenarios?"+q),api("frontier?"+q+"&points=11"),api("price_sweep?"+q)]);
+  S=a.scenarios;F=c.points;P=d.sweep;draw();$("st").textContent="Live results from /api, "+((performance.now()-t)/1000).toFixed(1)+" s"}
+ catch(e){$("st").textContent=location.protocol==="file:"?"Static sample results (open via the server for live mode)":"Showing sample results. API error: "+e.message;draw()}
+ b.disabled=false}
+$("s1").oninput=d1;$("s2").oninput=d2;$("go").onclick=run;draw();run();
+</script></body></html>

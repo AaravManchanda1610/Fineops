@@ -1,0 +1,4 @@
+{
+  "functions": { "api/index.py": { "maxDuration": 30, "includeFiles": "greenfinops/**" } },
+  "rewrites": [ { "source": "/api/(.*)", "destination": "/api/index" } ]
+}
